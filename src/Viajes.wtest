@@ -1,0 +1,119 @@
+import viajes.*
+import socio.*
+
+
+describe "una excursión a ciudad normal (no tropical) en la que se visitan
+4 atracciones, lleva 2 días, no implica esfuerzo, y no sirve para broncearse.
+"{
+	const exACiudad1= new ExcursionALaCiudad(cantDeAtracciones=4)
+	
+	method initialize(){
+		exACiudad1.implicaEsfuerzo()
+		exACiudad1.broncearse()
+		}
+	
+test	"lleva 2 dias"{
+	assert.equals(2,exACiudad1.cantDeDiasDeActividad())
+}
+test "no implica esfuerzo"{
+	assert.notThat(exACiudad1.implicaEsfuerzo())
+	
+}
+test " no sirve para broncearse"{
+	assert.notThat(exACiudad1.broncearse())
+}
+
+}
+
+describe " una excursión a ciudad tropical en la que se visitan 4 atracciones,
+ lleva 3 días, no implica esfuerzo, y sí sirve para broncearse."{
+ 	const exACiudad2= new ExcursionALaCiudadTropical(cantDeAtracciones=4)
+ 		method initialize(){
+		exACiudad2.implicaEsfuerzo()
+		exACiudad2.broncearse()
+		}
+	
+test	"lleva 3 dias"{
+	assert.equals(3,exACiudad2.cantDeDiasDeActividad())
+}
+test "no implica esfuerzo"{
+	assert.notThat(exACiudad2.implicaEsfuerzo())
+	
+}
+test " sirve para broncearse"{
+	assert.that(exACiudad2.broncearse())
+}
+
+}
+describe "una salida de 100 kilómetros a un lugar con 
+130 días de sol por año: lleva 2 días, implica esfuerzo, y no sirve para broncearse."{
+	const trekking1= new Trekking(diasDeSolPorAnio=130,kmDeSendero=100)
+	method initialize(){
+		trekking1.implicaEsfuerzo()
+		trekking1.broncearse()
+}
+test "lleva 2 dias"{
+	assert.equals(2,trekking1.cantDeDiasDeActividad())
+}
+test "implica esfuerzo"{
+	assert.that(trekking1.implicaEsfuerzo())
+	
+}
+test "no sirve para broncearse"{
+	
+
+	assert.notThat(trekking1.broncearse())
+
+}
+
+}
+describe " una salida de 50 kilómetros a un lugar con 
+240 días de sol por año: lleva 1 día, no implica esfuerzo, y sí sirve para broncearse."{
+	const trekking2= new Trekking(diasDeSolPorAnio=240,kmDeSendero=50)
+	test " lleva 1 dia"{
+		assert.equals(1,trekking2.cantDeDiasDeActividad())
+	}
+	test "no implica esfuerzo"{
+		assert.notThat(trekking2.implicaEsfuerzo())
+	}
+	test "broncearse"{
+		assert.that(trekking2.broncearse())
+	}
+
+
+}
+describe "Roque realizo 2 viajes de playa, con longitudes de 1000 y 2000 metros, tiene un maximo 
+de 2 actividades"{
+	const viajeDePlaya1= new ViajeDePlaya(largo=1000)
+	const viajeDePlaya2= new ViajeDePlaya(largo=2000)
+	const claseDeGym= new ClasesDeGym()
+	const roque=new Socio(maximoDeActividadPorSocio=2, edad=40)
+	method initilize(){
+		roque.agregarActividad(viajeDePlaya1)
+		roque.agregarActividad(viajeDePlaya2)
+	}
+	test "realizo 2 viajes "{
+		roque.agregarActividad(viajeDePlaya1)
+		roque.agregarActividad(viajeDePlaya2)
+		assert.equals(2,roque.cantDeActividades())
+		
+	}
+	test "tiene maximo de 2 actividades"{
+		assert.equals(2,roque.maximoDeActividadesPorSocio())
+	}
+	test "roque es adorador del sol"{
+		assert.that(roque.adoradorDelSol())
+	}
+	test"actividadesEsforzadas,devuelve la de 2000 metros"{
+			roque.agregarActividad(viajeDePlaya1)
+			roque.agregarActividad(viajeDePlaya2)
+		assert.equals([viajeDePlaya2],roque.actividadesEsforzadas())
+		
+		}
+	test "se genera error al agregar clases de gym"{
+		roque.agregarActividad(viajeDePlaya1)
+		roque.agregarActividad(viajeDePlaya2)
+		roque.agregarActividad(claseDeGym)
+	}
+	
+}
